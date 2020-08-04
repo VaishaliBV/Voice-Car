@@ -1,0 +1,82 @@
+#include <SoftwareSerial.h>
+
+SoftwareSerial BT(0, 1); //TX, RX respetively
+String readvoice;
+
+void setup() {
+ BT.begin(9600);
+ Serial.begin(9600);
+  pinMode(4, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(10, OUTPUT);
+  pinMode(6, OUTPUT);
+
+}
+//-----------------------------------------------------------------------//
+void loop() {
+  while (BT.available()){  //Check if there is an available byte to read
+  delay(10); //Delay added to make thing stable
+  char c = BT.read(); //Conduct a serial read
+  readvoice += c; //build the string- "forward", "reverse", "left" and "right"
+  }
+  if (readvoice.length() > 0) {
+    Serial.println(readvoice);
+
+  if(readvoice == "forward")
+  {
+    digitalWrite(3, 10);
+    digitalWrite (4, 10);
+    digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    delay(10);
+  }
+
+  else if(readvoice == "back")
+  {
+    digitalWrite(3, LOW);
+    digitalWrite(4, LOW);
+    digitalWrite(5, 10);
+    digitalWrite(6,10);
+    Serial.print("yes");
+   
+    delay(10);
+  }
+
+  else if (readvoice == "left")
+  {
+    digitalWrite (3,10);
+    digitalWrite (4,LOW);
+    digitalWrite (5,LOW);
+    digitalWrite (6,LOW);
+   
+    delay(10);
+ 
+  }
+
+ else if ( readvoice == "right")
+ {
+   digitalWrite (3, LOW);
+   digitalWrite (4, 10);
+   digitalWrite (5, LOW);
+   digitalWrite (6, LOW);
+ 
+    delay(10);
+ }
+
+ else if (readvoice == "stop")
+ {
+   digitalWrite (3, LOW);
+   digitalWrite (4, LOW);
+   digitalWrite (5, LOW);
+   digitalWrite (6, LOW);
+   delay (10);
+ }
+ else if (readvoice == "spin")
+ {
+   digitalWrite (3, 10);
+   digitalWrite (4, LOW);
+   digitalWrite (5, LOW);
+   digitalWrite (6, LOW);
+   delay (10);
+ }
+readvoice="";}} //Reset the variable
